@@ -1,3 +1,4 @@
+import { TokenService } from './../services/token.service';
 import { AccountService } from './../services/account.service';
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
@@ -12,7 +13,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):  boolean  {
-      if(!this.accountService.isAuth())
+      if(!this.accountService.isLogIn())
       {
         this.accountService.logOut();
         return false;

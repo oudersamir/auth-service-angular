@@ -1,3 +1,4 @@
+import { TokenService } from './token.service';
 import { AccountService } from './account.service';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
@@ -12,13 +13,14 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
-  constructor(private accountService:AccountService) {}
+  constructor(private accountService:AccountService,
+              private tokenSerice:TokenService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if(request.url!=environment.url_auth_service+'/auth/login'){
+    if(request.url!=environment.url_auth_service+'/login'){
     request=request.clone({
      setHeaders:{
-       Authorization: `${this.accountService.loadToken()}`,
+       Authorization: `Bearer ${this.tokenSerice.getToken()}`,
        Accept:`application/json`
 
      } 

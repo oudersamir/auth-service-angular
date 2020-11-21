@@ -14,9 +14,9 @@ export class AfterAuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-   if(this.accountService.isAuth())
+   if(this.accountService.isLogIn())
       {
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/home');
         return false;
       }
 

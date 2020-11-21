@@ -1,8 +1,10 @@
+import { TokenService } from './token.service';
 import { Router } from '@angular/router';
 import { Role } from './../commons/models/role';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DataService } from './../commons/data.service';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,32 +13,32 @@ export class AccountService  extends DataService{
   private jwtToken:string;
   private roles :Array<Role>=[];
 
-  constructor( http: HttpClient,private router:Router) { 
+  private loggedIn = new BehaviorSubject<boolean>(this.tokenService.loggedIn());
+  authStatus=this.loggedIn.asObservable();
+
+  constructor( http: HttpClient,private router:Router,private tokenService:TokenService) { 
   super("auth",http);
   }
-
+  
+  changeStatus(value:boolean){
+    this.loggedIn.next(value);
+  }
 
   getUsers(){
-    if(this.jwtToken==null) this.loadToken();
+    if(this.tokenService.loggedIn()) 
     return this.getAll('users',new HttpHeaders({'Authorization':this.jwtToken}))
   }
 
- saveToken(jwtToken){
-  this.jwtToken=jwtToken;
-  localStorage.setItem("token",jwtToken);
-
- }
-
-
-
-loadToken(){
-this.jwtToken=localStorage.getItem('token');
-return this.jwtToken;
-}
+ 
 
 logOut(){
-  localStorage.removeItem('token');
-  this.router.navigateByUrl('/auth');
+  this.tokenService.remove();
+  this.changeStatus(false);
+  this.router.navigateByUrl('/login');
+}
+
+isLogIn(){
+  return this.tokenService.loggedIn();
 }
 
 isAdmin(){
@@ -46,12 +48,7 @@ isAdmin(){
   return false;
 }
 
-isAuth(){
-  if(this.loadToken())
-  return true;
-  else 
-  return false;
-}
+
 
 
 
