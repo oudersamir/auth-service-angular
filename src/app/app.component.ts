@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AccountService } from './services/account.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,4 +9,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'auth-service-angular';
+
+
+
 }

@@ -1,0 +1,81 @@
+<div class="row">
+<div class="col-md-3">
+
+</div>
+<div class="col-md-9">
+
+
+    <div class="card text-center">
+        <div class="card-header">
+            Authentification
+        </div>
+        <div class="card-body">
+          <form   [formGroup]="authForm"  (ngSubmit)="onLogin()">
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-2 col-form-label">Username</label>
+              <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputUsername" formControlName="username"
+              [class.is-valid]="username.valid && (username.dirty || username.touched)"
+              [class.is-invalid]="username.invalid && (username.dirty || username.touched)"
+
+              >
+              <div class="alert alert-danger" *ngIf="username.invalid 
+              && (username.dirty || username.touched) && username.errors"
+               >
+                <ul>
+                  <li class="text-danger" *ngIf="username.hasError('cannotContentSpace')" >
+                    this field cannot content space
+                  </li>
+                  <li class="text-danger" *ngIf="username.hasError('required')" >
+                    this field is required
+                  </li>
+                  <li class="text-danger" *ngIf="username.hasError('minlength')" >
+                    The minimum length for this field is {{username.errors.minlength.requiredLength}} characters.
+                  </li>
+                 
+                </ul>
+              </div>
+              </div>
+              
+            </div>
+            <div class="form-group row">
+              <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputPassword"  formControlName="password"
+                [class.is-valid]="password.valid && (password.dirty || password.touched)"
+                [class.is-invalid]="password.invalid && (password.dirty || password.touched)">
+                <div class="alert alert-danger" *ngIf="password.invalid 
+                && (password.dirty || password.touched)">
+                  <ul>
+                    <li class="text-danger" *ngIf="password.hasError('minlength')" >
+                      The minimum length for this field is {{password.errors.minlength.requiredLength}} characters.
+                    </li>
+                   
+                    <li class="text-danger" *ngIf="password.hasError('cannotContentSpace')" >
+                      this field cannot content space
+                    </li>
+                    <li class="text-danger" *ngIf="password.hasError('required')" >
+                      this field is required
+                    </li>
+            
+  
+                  </ul>
+                </div>
+              </div>
+              
+            </div>
+            <div class="card-footer text-muted">
+              <button type="button" [disabled]="authForm.invalid" (click)="onLogin()" class="btn btn-success">Valider</button>
+            </div>
+          </form>
+        </div>
+        
+      </div>
+
+
+
+    
+</div>
+
+
+</div>
